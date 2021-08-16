@@ -9,13 +9,15 @@
 
 <div class="container pt-5" id="app">
     <div class="card" >
-        <h1>{{title}}</h1>
+        <h1 :style="{color : inputValue.length < 5 ? 'black' : 'red',
+          fontSize: inputValue.length < 5 ? '1.5rem' : '2rem'
+          }">{{title}}</h1>
         <div class="form-control">
             <input
                     type="text"
                     :placeholder='myPlaceholder'
                     :value="inputValue"
-                    @input=inputChangeHandler
+                    v-model="inputValue"
                     @keypress.enter="addNewNote"
             >
         </div>
@@ -23,11 +25,11 @@
         <hr/>
         <ul class="list" v-if="notes.length">
             <li class="list-item" v-for="(note,index) in notes">
-               {{index + 1 + '.'}} {{myToUpperCase(note)}}
+               <span :class="note.length > 5 ? 'primary' : 'bold'">{{index + 1 + '.'}} {{myToUpperCase(note)}}</span>
                 <button class="btn danger" @click="deleteNote(index)">удалить</button>
             </li>
             <hr/>
-            <li><strong>Oбщее количество заметок: {{notes.length}}</strong></li>
+            <li><strong>Oбщее количество заметок: {{notes.length}} </strong>  | Удвоенное значение счетчика: {{doubleCountComputed}}</li>
         </ul>
         <div v-else>Заметок пока нет. Добавьте заметки.</div>
     </div>
